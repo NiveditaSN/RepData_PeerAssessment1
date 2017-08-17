@@ -21,15 +21,21 @@ totsteps <- activity %>%
                     summarize(Total = sum(steps, na.rm = TRUE))
 
 
+
 ```
+
 
 # Histogram of the total number of steps taken each day
 ```{r totsteps, echo=TRUE}
 hist(totsteps$Total, main = "Daily Total Steps", xlab = "Number of Steps", ylab = "Frequency", breaks=20, col = "red")
 ```
+ 
+
+-![](figure/htotsteps.png)<!-- --> 
 
 ```{r}
 meansteps <- mean(totsteps$Total,na.rm=TRUE)
+
 mediansteps<- median(totsteps$Total,na.rm=TRUE)
 ```
 
@@ -43,7 +49,9 @@ avgsteps<- sqldf("select interval, avg(steps) as msteps from activity group by i
 maxinterval<- sqldf("select interval,msteps from avgsteps avg1 inner join (select max(msteps) as maxsteps from avgsteps) avg2 on avg1.msteps=avg2.maxsteps", drv = 'SQLite')
 plot(x = avgsteps$interval, y = avgsteps$msteps, type = "l", col = "red", lwd = 2, xlab = "5-minute Time Interval", ylab = "Average Steps", main = "Time Series Plot on Daily Average Steps")
 
+
 ```
+-![](figure/avgsteps.png)<!-- --> 
 
  ```r maxinterval$interval``` th 5-minute interval contains the maximum number of steps(```r maxinterval$msteps``` steps)
 
@@ -70,6 +78,7 @@ newsteps <- NewActivity %>%
                     summarize(Total = sum(steps,na.rm=TRUE))
 hist(newsteps$Total, main = "Daily Total Steps", xlab = "Number of Steps", ylab = "Frequency",breaks=20,  col = "red")
 ```
+-![](figure/hnewsteps.png)<!-- --> 
 
 #Find mean and median of the steps in the new dataset
 ```{r}
@@ -102,3 +111,7 @@ newsteps <- NewActivity %>%
 
 g <- ggplot(newsteps,aes(interval,steps,group=week)) + geom_line() + facet_grid(week~.)
 print(g)
+```
+-![](figure/weeksteps.png)<!-- --> 
+
+END
